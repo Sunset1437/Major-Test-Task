@@ -15,5 +15,8 @@ namespace MajorTestTask.DataBase.Entities
         public double Length { get; set; }
         public double Width { get; set; }
         public double Height { get; set; }
+        public string? Status { get; set; }
+        public string? Executor { get; set; }
+        public string? WhyIsCanceled { get; set; }
     }
 }

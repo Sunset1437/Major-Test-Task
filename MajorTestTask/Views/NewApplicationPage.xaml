@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MajorTestTask.Views.NewApplicationPage"
+             BackgroundColor="#e8a346"
+             Title="{Binding Title}">
+    
+    <VerticalStackLayout Margin="20" Spacing="10">
+
+        <Editor Text="{Binding SenderAddress, Mode=TwoWay}" TextColor="Black" Placeholder="Адрес отправителя" BackgroundColor="White"/>
+        <Editor Text="{Binding ReceiverAddress, Mode=TwoWay}" TextColor="Black" Placeholder="Адрес получателя" BackgroundColor="White"/>
+
+        <Label Text="МГХ груза" FontSize="21" HorizontalOptions="Center" VerticalOptions="Start"/>
+        <Entry Text="{Binding Weight, Mode=TwoWay}" TextColor="Black" Placeholder="Вес" BackgroundColor="White"/>
+        <Entry Text="{Binding Length, Mode=TwoWay}" TextColor="Black" Placeholder="Длина" BackgroundColor="White"/>
+        <Entry Text="{Binding Width, Mode=TwoWay}" TextColor="Black" Placeholder="Ширина" BackgroundColor="White"/>
+        <Entry Text="{Binding Height, Mode=TwoWay}" TextColor="Black" Placeholder="Высота" BackgroundColor="White"/>
+
+        <HorizontalStackLayout>
+            <Label Text="Статус заявки" FontSize="16" VerticalOptions="Center"/>
+            <Picker x:Name="PickerStatus">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Передано на выполнение</x:String>
+                        <x:String>Выполнено</x:String>
+                        <x:String>Отменена</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
+        </HorizontalStackLayout>
+
+        <Entry Text="{Binding Executor, Mode=TwoWay}" TextColor="Black" Placeholder="Исполнитель" BackgroundColor="White"/>
+        <Editor Text="{Binding WhyIsCanceled, Mode=TwoWay}" TextColor="Black" Placeholder="Причина отмены" BackgroundColor="White"/>
+    </VerticalStackLayout>
+</ContentPage>

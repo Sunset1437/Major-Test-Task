@@ -1,24 +1,21 @@
-﻿namespace MajorTestTask;
+﻿using MajorTestTask.ViewModels;
+
+namespace MajorTestTask;
 
 public partial class MainPage : ContentPage
 {
-	int count = 0;
-
+	MainPageVM viewModel;
 	public MainPage()
 	{
 		InitializeComponent();
+		BindingContext = viewModel = new MainPageVM();
 	}
 
-	private void OnCounterClicked(object sender, EventArgs e)
-	{
-		count++;
-
-		if (count == 1)
-			CounterBtn.Text = $"Clicked {count} time";
-		else
-			CounterBtn.Text = $"Clicked {count} times";
-
-		SemanticScreenReader.Announce(CounterBtn.Text);
-	}
+    private async void ToApplications_Clicked(object sender, EventArgs e)
+    {
+        ToApplications.BackgroundColor = Color.FromHex("#A1A1A1");
+        await Task.Delay(1000);
+        ToApplications.BackgroundColor = Color.FromHex("#FFFFFF");
+    }
 }
 

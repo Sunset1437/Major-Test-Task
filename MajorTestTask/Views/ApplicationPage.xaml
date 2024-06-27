@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:MajorTestTask.ViewModels"
+             x:Class="MajorTestTask.Views.ApplicationPage"
+             Title="Заявки"
+             BackgroundColor="#e8a346">
+    <VerticalStackLayout Margin="20">
+        <VerticalStackLayout>
+            <SearchBar Placeholder="Поиск" BackgroundColor="White"/>
+        </VerticalStackLayout>
+        <Grid Margin="0,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.4*"/>
+                <ColumnDefinition Width="0.6*"/>
+            </Grid.ColumnDefinitions>
+            <VerticalStackLayout Spacing="10">
+                <Button Text="Добавить новую заявку" Clicked="Button_Clicked" Command="{Binding GoToNewApplicationCommand}" TextColor="Black" FontSize="21"/>
+                <Button Text="Выбрать" Clicked="Button_Clicked_1" TextColor="Black" FontSize="21"/>
+            </VerticalStackLayout>
+            <VerticalStackLayout Grid.Column="1" VerticalOptions="StartAndExpand" HorizontalOptions="CenterAndExpand">
+                <Label Margin="0,0,0,10" Text="Список всех заявок" FontSize="21" HorizontalOptions="CenterAndExpand"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="400"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="60"/>
+                    </Grid.RowDefinitions>
+                    <Frame BorderColor="#886430" BackgroundColor="White" CornerRadius="0" Padding="0">
+                        <Label Text="Адрес отправителя" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
+                    </Frame>
+                    <Frame  Grid.Column="1" BorderColor="#886430" BackgroundColor="White" CornerRadius="0" Padding="0">
+                        <Label Text="Адрес получателя" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
+                    </Frame>
+                    <Frame  Grid.Column="2" BorderColor="#886430" BackgroundColor="White" CornerRadius="0" Padding="0">
+                        <Label Text="Дата забора" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
+                    </Frame>
+                    <Frame  Grid.Column="3" BorderColor="#886430" BackgroundColor="White" CornerRadius="0" Padding="0">
+                        <VerticalStackLayout Spacing="0">
+                            <Frame BorderColor="#886430" BackgroundColor="White" CornerRadius="0" Padding="0">
+                                <Label Text="МГХ груза"  VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
+                            </Frame>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="100"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="40"/>
+                                </Grid.RowDefinitions>
+                                <Frame BorderColor="#886430" BackgroundColor="White" CornerRadius="0" Padding="0">
+                                    <Label Text="Вес" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
+                                </Frame>
+                                <Frame Grid.Column="1" BorderColor="#886430" BackgroundColor="White" CornerRadius="0" Padding="0">
+                                    <Label Text="Длина" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
+                                </Frame>
+                                <Frame Grid.Column="2" BorderColor="#886430" BackgroundColor="White" CornerRadius="0" Padding="0">
+                                    <Label Text="Ширина" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
+                                </Frame>
+                                <Frame Grid.Column="3" BorderColor="#886430" BackgroundColor="White" CornerRadius="0" Padding="0">
+                                    <Label Text="Высота" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
+                                </Frame>
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Frame>
+                </Grid>
+                <CollectionView ItemsSource="{Binding Applications}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <VerticalStackLayout Margin="0,5">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="150"/>
+                                        <ColumnDefinition Width="150"/>
+                                        <ColumnDefinition Width="100"/>
+                                        <ColumnDefinition Width="100"/>
+                                        <ColumnDefinition Width="100"/>
+                                        <ColumnDefinition Width="100"/>
+                                        <ColumnDefinition Width="100"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <Frame BorderColor="#886430" BackgroundColor="White" CornerRadius="0" Padding="0">
+                                        <Label Text="{Binding SenderAddress}" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
+                                    </Frame>
+                                    <Frame  Grid.Column="1" BorderColor="#886430" BackgroundColor="White" CornerRadius="0" Padding="0">
+                                        <Label Text="{Binding ReceiverAddress}" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
+                                    </Frame>
+                                    <Frame  Grid.Column="2" BorderColor="#886430" BackgroundColor="White" CornerRadius="0" Padding="0">
+                                        <Label Text="{Binding TakingDate, StringFormat='{}{0:dd/MM/yyyy}'}" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
+                                    </Frame>
+                                    <Frame  Grid.Column="3" BorderColor="#886430" BackgroundColor="White" CornerRadius="0" Padding="0">
+                                        <Label Text="{Binding Weight}"  VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
+                                    </Frame>
+                                    <Frame  Grid.Column="4" BorderColor="#886430" BackgroundColor="White" CornerRadius="0" Padding="0">
+                                        <Label Text="{Binding Length}" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
+                                    </Frame>
+                                    <Frame  Grid.Column="5" BorderColor="#886430" BackgroundColor="White" CornerRadius="0" Padding="0">
+                                        <Label Text="{Binding Width}" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
+                                    </Frame>
+                                    <Frame  Grid.Column="6" BorderColor="#886430" BackgroundColor="White" CornerRadius="0" Padding="0">
+                                        <Label Text="{Binding Height}" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
+                                    </Frame>
+                                </Grid>
+                                <Frame BorderColor="#886430" BackgroundColor="White" CornerRadius="0" Padding="0">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="0.5*"/>
+                                            <ColumnDefinition Width="0.5*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <Frame BorderColor="#886430" BackgroundColor="White" CornerRadius="0" Padding="0">
+                                            <Label Text="Исполнитель: " VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
+                                        </Frame>
+                                        <Frame Grid.Column="1" BorderColor="#886430" BackgroundColor="White" CornerRadius="0" Padding="0">
+                                            <Label Text="{Binding Executor}" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
+                                        </Frame>
+                                        <Frame Grid.Row="1" BorderColor="#886430" BackgroundColor="White" CornerRadius="0" Padding="0">
+                                            <Label Text="Статус заявки: " VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>    
+                                        </Frame>
+                                        <Frame Grid.Row="1" Grid.Column="1" BorderColor="#886430" BackgroundColor="White" CornerRadius="0" Padding="0">
+                                            <Label Text="{Binding Status}" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
+                                        </Frame>
+                                    </Grid>
+                                </Frame>
+                                <VerticalStackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer 
+                                        NumberOfTapsRequired="1"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type local:ApplicationVM}}, Path=EditApplicationCommand}"		
+                                        CommandParameter="{Binding .}"/>
+                                </VerticalStackLayout.GestureRecognizers>
+                            </VerticalStackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+        </Grid>
+    </VerticalStackLayout>
+</ContentPage>
