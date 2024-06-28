@@ -18,8 +18,4 @@ public partial class ApplicationPage : ContentPage
         (sender as Button).BackgroundColor = Color.FromHex("#FFFFFF");
     }
 
-    private void Button_Clicked_1(object sender, EventArgs e)
-    {
-
-    }
 }

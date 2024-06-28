@@ -11,25 +11,22 @@
         <Editor Text="{Binding ReceiverAddress, Mode=TwoWay}" TextColor="Black" Placeholder="Адрес получателя" BackgroundColor="White"/>
 
         <Label Text="МГХ груза" FontSize="21" HorizontalOptions="Center" VerticalOptions="Start"/>
-        <Entry Text="{Binding Weight, Mode=TwoWay}" TextColor="Black" Placeholder="Вес" BackgroundColor="White"/>
-        <Entry Text="{Binding Length, Mode=TwoWay}" TextColor="Black" Placeholder="Длина" BackgroundColor="White"/>
-        <Entry Text="{Binding Width, Mode=TwoWay}" TextColor="Black" Placeholder="Ширина" BackgroundColor="White"/>
-        <Entry Text="{Binding Height, Mode=TwoWay}" TextColor="Black" Placeholder="Высота" BackgroundColor="White"/>
+        <Entry Text="{Binding Weight, Mode=TwoWay}" TextColor="Black" Placeholder="Вес, кг" BackgroundColor="White"/>
+        <Entry Text="{Binding Length, Mode=TwoWay}" TextColor="Black" Placeholder="Длина, см" BackgroundColor="White"/>
+        <Entry Text="{Binding Width, Mode=TwoWay}" TextColor="Black" Placeholder="Ширина, см" BackgroundColor="White"/>
+        <Entry Text="{Binding Height, Mode=TwoWay}" TextColor="Black" Placeholder="Высота, см" BackgroundColor="White"/>
 
         <HorizontalStackLayout>
             <Label Text="Статус заявки" FontSize="16" VerticalOptions="Center"/>
-            <Picker x:Name="PickerStatus">
-                <Picker.ItemsSource>
-                    <x:Array Type="{x:Type x:String}">
-                        <x:String>Передано на выполнение</x:String>
-                        <x:String>Выполнено</x:String>
-                        <x:String>Отменена</x:String>
-                    </x:Array>
-                </Picker.ItemsSource>
-            </Picker>
+            <Picker x:Name="PickerStatus" SelectedIndexChanged="PickerStatus_SelectedIndexChanged"/>
         </HorizontalStackLayout>
 
-        <Entry Text="{Binding Executor, Mode=TwoWay}" TextColor="Black" Placeholder="Исполнитель" BackgroundColor="White"/>
-        <Editor Text="{Binding WhyIsCanceled, Mode=TwoWay}" TextColor="Black" Placeholder="Причина отмены" BackgroundColor="White"/>
+        <VerticalStackLayout IsVisible="{Binding IsOnEdit}">
+            <Entry Text="{Binding Executor, Mode=TwoWay}" TextColor="Black" Placeholder="Исполнитель" BackgroundColor="White"/>
+            <Editor x:Name="ReasonEditor" Text="{Binding WhyIsCanceled, Mode=TwoWay}" TextColor="Black" Placeholder="Причина отмены" BackgroundColor="White"/>
+        </VerticalStackLayout>
+
+        <Button Text="Сохранить" Command="{Binding SaveCommand}" FontSize="21" Clicked="Button_Clicked" TextColor="Black"/>
+        <Button IsVisible="{Binding IsOnEdit}" Text="Удалить" Command="{Binding DeleteCommand}" FontSize="21" Clicked="Button_Clicked" TextColor="Black"/>
     </VerticalStackLayout>
 </ContentPage>

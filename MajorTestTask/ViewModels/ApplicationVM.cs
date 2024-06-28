@@ -1,4 +1,5 @@
 ﻿using MajorTestTask.DataBase.Entities;
+using MajorTestTask.Extensions;
 using MajorTestTask.Views;
 using System;
 using System.Collections.Generic;
@@ -11,15 +12,40 @@ namespace MajorTestTask.ViewModels
 {
     public class ApplicationVM : BaseViewModel
     {
+        #region fields
+        private ObservableCollection<ApplicationEntity> applications;
+        public ObservableCollection<ApplicationEntity> Applications
+        {
+            get => applications;
+            set
+            {
+                applications = value;
+                OnPropertyChanged();
+            }
+        }
+        private ObservableCollection<ApplicationEntity> allItems;
+        private string searchTerm;
+        public string SearchTerm
+        {
+            get => searchTerm;
+            set
+            {
+                searchTerm = value;
+                OnPropertyChanged();
+                PerformSearch();
+            }
+        }
+        #endregion
         public Command GoToNewApplicationCommand { get; }
         public Command EditApplicationCommand { get; }
-        public ObservableCollection<ApplicationEntity> Applications { get; set; }
         public ApplicationVM() 
         {
-            Applications = new ObservableCollection<ApplicationEntity>();
+            allItems = new ObservableCollection<ApplicationEntity>();
+            ExecuteLoadItemsAsync();
+            Applications = new ObservableCollection<ApplicationEntity>(allItems);
             GoToNewApplicationCommand = new Command(OnNewApplicationClicked);
             EditApplicationCommand = new Command(OnEditApplicationClicked);
-            ExecuteLoadItemsAsync();
+            
         }
 
         private async void OnEditApplicationClicked(object obj)
@@ -31,12 +57,15 @@ namespace MajorTestTask.ViewModels
         {
             await Shell.Current.GoToAsync(nameof(NewApplicationPage));
         }
-
+        private void PerformSearch()
+        {
+            Applications = allItems.Search(SearchTerm);
+        }
         public async Task ExecuteLoadItemsAsync()
         {
-            Applications.Clear();
-            Applications.Add(new ApplicationEntity() { SenderAddress= "г.Москва", ReceiverAddress = "г.Екатерининбург", TakingDate = new DateTime(2024,10,20), Weight = 400, Length=20, Height=20, Width=20});
-            Applications.Add(new ApplicationEntity() { SenderAddress = "г.Москва", ReceiverAddress = "г.Брянск", TakingDate = new DateTime(2024, 10, 22), Weight = 500, Length = 22, Height = 24, Width = 28 });
+            allItems.Clear();
+            allItems.Add(new ApplicationEntity() { SenderAddress= "г.Москва", ReceiverAddress = "г.Екатерининбург", TakingDate = new DateTime(2024,10,20), Weight = 400, Length=20, Height=20, Width=20});
+            allItems.Add(new ApplicationEntity() { SenderAddress = "г.Москва", ReceiverAddress = "г.Брянск", TakingDate = new DateTime(2024, 10, 22), Weight = 500, Length = 22, Height = 24, Width = 28 });
         }
     }
 }

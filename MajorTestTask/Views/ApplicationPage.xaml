@@ -7,7 +7,7 @@
              BackgroundColor="#e8a346">
     <VerticalStackLayout Margin="20">
         <VerticalStackLayout>
-            <SearchBar Placeholder="Поиск" BackgroundColor="White"/>
+            <Entry Placeholder="Поиск, например: г.Москва" BackgroundColor="White" Text="{Binding SearchTerm}" TextColor="Black" IsSpellCheckEnabled="False"/>
         </VerticalStackLayout>
         <Grid Margin="0,20">
             <Grid.ColumnDefinitions>
@@ -16,7 +16,7 @@
             </Grid.ColumnDefinitions>
             <VerticalStackLayout Spacing="10">
                 <Button Text="Добавить новую заявку" Clicked="Button_Clicked" Command="{Binding GoToNewApplicationCommand}" TextColor="Black" FontSize="21"/>
-                <Button Text="Выбрать" Clicked="Button_Clicked_1" TextColor="Black" FontSize="21"/>
+                <Button Text="Выбрать" Clicked="Button_Clicked" TextColor="Black" FontSize="21"/>
             </VerticalStackLayout>
             <VerticalStackLayout Grid.Column="1" VerticalOptions="StartAndExpand" HorizontalOptions="CenterAndExpand">
                 <Label Margin="0,0,0,10" Text="Список всех заявок" FontSize="21" HorizontalOptions="CenterAndExpand"/>
@@ -97,16 +97,16 @@
                                         <Label Text="{Binding TakingDate, StringFormat='{}{0:dd/MM/yyyy}'}" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
                                     </Frame>
                                     <Frame  Grid.Column="3" BorderColor="#886430" BackgroundColor="White" CornerRadius="0" Padding="0">
-                                        <Label Text="{Binding Weight}"  VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
+                                        <Label Text="{Binding Weight, StringFormat='{0} кг'}"  VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
                                     </Frame>
                                     <Frame  Grid.Column="4" BorderColor="#886430" BackgroundColor="White" CornerRadius="0" Padding="0">
-                                        <Label Text="{Binding Length}" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
+                                        <Label Text="{Binding Length, StringFormat='{0} см'}" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
                                     </Frame>
                                     <Frame  Grid.Column="5" BorderColor="#886430" BackgroundColor="White" CornerRadius="0" Padding="0">
-                                        <Label Text="{Binding Width}" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
+                                        <Label Text="{Binding Width, StringFormat='{0} см'}" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
                                     </Frame>
                                     <Frame  Grid.Column="6" BorderColor="#886430" BackgroundColor="White" CornerRadius="0" Padding="0">
-                                        <Label Text="{Binding Height}" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
+                                        <Label Text="{Binding Height, StringFormat='{0} см'}" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
                                     </Frame>
                                 </Grid>
                                 <Frame BorderColor="#886430" BackgroundColor="White" CornerRadius="0" Padding="0">

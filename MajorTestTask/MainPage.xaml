@@ -3,9 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MajorTestTask.MainPage"
              Title="Программа учёта"
-             BackgroundColor="LightPink">
-    <VerticalStackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
-            <Button x:Name="ToApplications" Clicked="ToApplications_Clicked" Text="К заявкам" Command="{Binding GoToApplicationCommand}" FontSize="21" WidthRequest="300" HeightRequest="60"/>
+             BackgroundColor="#e8a346">
+    <VerticalStackLayout VerticalOptions="StartAndExpand" HeightRequest="700">
+        <Label Text="Made by Sunset1437 (github)" TextColor="White" FontSize="21"/>
+        <VerticalStackLayout VerticalOptions="EndAndExpand">
+            <Button x:Name="ToApplications" Clicked="ToApplications_Clicked" Text="К заявкам" TextColor="Black" Command="{Binding GoToApplicationCommand}" FontSize="21" WidthRequest="300" HeightRequest="60"/>
         </VerticalStackLayout>
+    </VerticalStackLayout>
 
 </ContentPage>
