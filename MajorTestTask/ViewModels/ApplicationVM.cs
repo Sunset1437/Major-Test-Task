@@ -1,6 +1,7 @@
 ﻿using MajorTestTask.DataBase.Entities;
 using MajorTestTask.Extensions;
 using MajorTestTask.Views;
+using MajorTestTask.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -41,21 +42,21 @@ namespace MajorTestTask.ViewModels
         public ApplicationVM() 
         {
             allItems = new ObservableCollection<ApplicationEntity>();
-            ExecuteLoadItemsAsync();
             Applications = new ObservableCollection<ApplicationEntity>(allItems);
+            ExecuteLoadItemsAsync().GetAwaiter().GetResult();
             GoToNewApplicationCommand = new Command(OnNewApplicationClicked);
-            EditApplicationCommand = new Command(OnEditApplicationClicked);
+            EditApplicationCommand = new Command<ApplicationEntity>(OnEditApplicationClickedAsync);
             
         }
 
-        private async void OnEditApplicationClicked(object obj)
+        private async void OnEditApplicationClickedAsync(ApplicationEntity item)
         {
-            await Shell.Current.GoToAsync($"{nameof(NewApplicationPage)}?{nameof(NewApplicationVM.IsOnEdit)}={true}");
+            await Shell.Current.GoToAsync($"{nameof(NewApplicationPage)}?{nameof(NewApplicationVM.ItemId)}={item.Id}");
         }
 
         public async void OnNewApplicationClicked(object obj)
         {
-            await Shell.Current.GoToAsync(nameof(NewApplicationPage));
+            await Shell.Current.GoToAsync($"{nameof(NewApplicationPage)}");
         }
         private void PerformSearch()
         {
@@ -63,9 +64,40 @@ namespace MajorTestTask.ViewModels
         }
         public async Task ExecuteLoadItemsAsync()
         {
+            Applications.Clear();
             allItems.Clear();
-            allItems.Add(new ApplicationEntity() { SenderAddress= "г.Москва", ReceiverAddress = "г.Екатерининбург", TakingDate = new DateTime(2024,10,20), Weight = 400, Length=20, Height=20, Width=20});
-            allItems.Add(new ApplicationEntity() { SenderAddress = "г.Москва", ReceiverAddress = "г.Брянск", TakingDate = new DateTime(2024, 10, 22), Weight = 500, Length = 22, Height = 24, Width = 28 });
+            var applications = await DataBaseHelper.GetItemsAsync<ApplicationEntity>();
+            foreach(var item in applications)
+            {
+                allItems.Add(new ApplicationEntity()
+                {
+                    Id = item.Id,
+                    ReceiverAddress = item.ReceiverAddress,
+                    SenderAddress = item.SenderAddress,
+                    TakingDate = item.TakingDate,
+                    Weight = item.Weight,
+                    Width = item.Width,
+                    Length = item.Length,
+                    Height = item.Height,
+                    Status = item.Status,
+                    Executor = item.Executor,
+                    WhyIsCanceled = item.WhyIsCanceled,
+                });
+                Applications.Add(new ApplicationEntity()
+                {
+                    Id = item.Id,
+                    ReceiverAddress = item.ReceiverAddress,
+                    SenderAddress = item.SenderAddress,
+                    TakingDate = item.TakingDate,
+                    Weight = item.Weight,
+                    Width = item.Width,
+                    Length = item.Length,
+                    Height = item.Height,
+                    Status = item.Status,
+                    Executor = item.Executor,
+                    WhyIsCanceled = item.WhyIsCanceled,
+                });
+            }
         }
     }
 }

@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MajorTestTask.Views.NewApplicationPage"
+             xmlns:system="clr-namespace:System;assembly=netstandard"
              BackgroundColor="#e8a346"
              Title="{Binding Title}">
     
@@ -9,24 +10,28 @@
 
         <Editor Text="{Binding SenderAddress, Mode=TwoWay}" TextColor="Black" Placeholder="Адрес отправителя" BackgroundColor="White"/>
         <Editor Text="{Binding ReceiverAddress, Mode=TwoWay}" TextColor="Black" Placeholder="Адрес получателя" BackgroundColor="White"/>
-
+        <HorizontalStackLayout>
+            <Label Text="Дата забора" FontSize="16" VerticalOptions="Center"/>
+            <DatePicker Date="{Binding TakingDate, Mode=TwoWay}"
+                        MinimumDate="{Binding Source={x:Static system:DateTime.Today}}" />
+        </HorizontalStackLayout>
+        
         <Label Text="МГХ груза" FontSize="21" HorizontalOptions="Center" VerticalOptions="Start"/>
-        <Entry Text="{Binding Weight, Mode=TwoWay}" TextColor="Black" Placeholder="Вес, кг" BackgroundColor="White"/>
-        <Entry Text="{Binding Length, Mode=TwoWay}" TextColor="Black" Placeholder="Длина, см" BackgroundColor="White"/>
-        <Entry Text="{Binding Width, Mode=TwoWay}" TextColor="Black" Placeholder="Ширина, см" BackgroundColor="White"/>
-        <Entry Text="{Binding Height, Mode=TwoWay}" TextColor="Black" Placeholder="Высота, см" BackgroundColor="White"/>
+        <Entry x:Name="EWeight" Text="{Binding Weight, Mode=TwoWay}" TextColor="Black" Placeholder="Вес, кг" BackgroundColor="White"/>
+        <Entry x:Name="ELength" Text="{Binding Length, Mode=TwoWay}" TextColor="Black" Placeholder="Длина, см" BackgroundColor="White"/>
+        <Entry x:Name="EWidth" Text="{Binding Width, Mode=TwoWay}" TextColor="Black" Placeholder="Ширина, см" BackgroundColor="White"/>
+        <Entry x:Name="EHeight" Text="{Binding Height, Mode=TwoWay}" TextColor="Black" Placeholder="Высота, см" BackgroundColor="White"/>
 
         <HorizontalStackLayout>
             <Label Text="Статус заявки" FontSize="16" VerticalOptions="Center"/>
-            <Picker x:Name="PickerStatus" SelectedIndexChanged="PickerStatus_SelectedIndexChanged"/>
+            <Picker x:Name="PickerStatus" SelectedIndexChanged="PickerStatus_SelectedIndexChanged" SelectedItem="{Binding Status, Mode=TwoWay}"/>
         </HorizontalStackLayout>
 
-        <VerticalStackLayout IsVisible="{Binding IsOnEdit}">
+        <VerticalStackLayout IsVisible="{Binding IsOnEdit}" Spacing="10">
             <Entry Text="{Binding Executor, Mode=TwoWay}" TextColor="Black" Placeholder="Исполнитель" BackgroundColor="White"/>
-            <Editor x:Name="ReasonEditor" Text="{Binding WhyIsCanceled, Mode=TwoWay}" TextColor="Black" Placeholder="Причина отмены" BackgroundColor="White"/>
+            <Editor x:Name="ReasonEditor" IsVisible="false" Text="{Binding WhyIsCanceled, Mode=TwoWay}" TextColor="Black" Placeholder="Причина отмены" BackgroundColor="White"/>
         </VerticalStackLayout>
 
         <Button Text="Сохранить" Command="{Binding SaveCommand}" FontSize="21" Clicked="Button_Clicked" TextColor="Black"/>
-        <Button IsVisible="{Binding IsOnEdit}" Text="Удалить" Command="{Binding DeleteCommand}" FontSize="21" Clicked="Button_Clicked" TextColor="Black"/>
     </VerticalStackLayout>
 </ContentPage>

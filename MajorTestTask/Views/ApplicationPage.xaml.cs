@@ -17,5 +17,10 @@ public partial class ApplicationPage : ContentPage
         await Task.Delay(1000);
         (sender as Button).BackgroundColor = Color.FromHex("#FFFFFF");
     }
+    protected async override void OnAppearing()
+    {
+        await viewModel.ExecuteLoadItemsAsync();
+        base.OnAppearing();
+    }
 
 }

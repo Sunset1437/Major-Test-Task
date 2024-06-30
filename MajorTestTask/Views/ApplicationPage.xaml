@@ -16,7 +16,6 @@
             </Grid.ColumnDefinitions>
             <VerticalStackLayout Spacing="10">
                 <Button Text="Добавить новую заявку" Clicked="Button_Clicked" Command="{Binding GoToNewApplicationCommand}" TextColor="Black" FontSize="21"/>
-                <Button Text="Выбрать" Clicked="Button_Clicked" TextColor="Black" FontSize="21"/>
             </VerticalStackLayout>
             <VerticalStackLayout Grid.Column="1" VerticalOptions="StartAndExpand" HorizontalOptions="CenterAndExpand">
                 <Label Margin="0,0,0,10" Text="Список всех заявок" FontSize="21" HorizontalOptions="CenterAndExpand"/>
@@ -88,25 +87,25 @@
                                         <RowDefinition Height="*"/>
                                     </Grid.RowDefinitions>
                                     <Frame BorderColor="#886430" BackgroundColor="White" CornerRadius="0" Padding="0">
-                                        <Label Text="{Binding SenderAddress}" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
+                                        <Label Text="{Binding SenderAddress, Mode=TwoWay}" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
                                     </Frame>
                                     <Frame  Grid.Column="1" BorderColor="#886430" BackgroundColor="White" CornerRadius="0" Padding="0">
-                                        <Label Text="{Binding ReceiverAddress}" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
+                                        <Label Text="{Binding ReceiverAddress, Mode=TwoWay}" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
                                     </Frame>
                                     <Frame  Grid.Column="2" BorderColor="#886430" BackgroundColor="White" CornerRadius="0" Padding="0">
-                                        <Label Text="{Binding TakingDate, StringFormat='{}{0:dd/MM/yyyy}'}" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
+                                        <Label Text="{Binding TakingDate, StringFormat='{}{0:dd/MM/yyyy}', Mode=TwoWay}" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
                                     </Frame>
                                     <Frame  Grid.Column="3" BorderColor="#886430" BackgroundColor="White" CornerRadius="0" Padding="0">
-                                        <Label Text="{Binding Weight, StringFormat='{0} кг'}"  VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
+                                        <Label Text="{Binding Weight, StringFormat='{0} кг', Mode=TwoWay}"  VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
                                     </Frame>
                                     <Frame  Grid.Column="4" BorderColor="#886430" BackgroundColor="White" CornerRadius="0" Padding="0">
-                                        <Label Text="{Binding Length, StringFormat='{0} см'}" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
+                                        <Label Text="{Binding Length, StringFormat='{0} см', Mode=TwoWay}" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
                                     </Frame>
                                     <Frame  Grid.Column="5" BorderColor="#886430" BackgroundColor="White" CornerRadius="0" Padding="0">
-                                        <Label Text="{Binding Width, StringFormat='{0} см'}" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
+                                        <Label Text="{Binding Width, StringFormat='{0} см', Mode=TwoWay}" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
                                     </Frame>
                                     <Frame  Grid.Column="6" BorderColor="#886430" BackgroundColor="White" CornerRadius="0" Padding="0">
-                                        <Label Text="{Binding Height, StringFormat='{0} см'}" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
+                                        <Label Text="{Binding Height, StringFormat='{0} см', Mode=TwoWay}" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
                                     </Frame>
                                 </Grid>
                                 <Frame BorderColor="#886430" BackgroundColor="White" CornerRadius="0" Padding="0">
@@ -123,13 +122,13 @@
                                             <Label Text="Исполнитель: " VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
                                         </Frame>
                                         <Frame Grid.Column="1" BorderColor="#886430" BackgroundColor="White" CornerRadius="0" Padding="0">
-                                            <Label Text="{Binding Executor}" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
+                                            <Label Text="{Binding Executor, Mode=TwoWay}" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
                                         </Frame>
                                         <Frame Grid.Row="1" BorderColor="#886430" BackgroundColor="White" CornerRadius="0" Padding="0">
                                             <Label Text="Статус заявки: " VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>    
                                         </Frame>
                                         <Frame Grid.Row="1" Grid.Column="1" BorderColor="#886430" BackgroundColor="White" CornerRadius="0" Padding="0">
-                                            <Label Text="{Binding Status}" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
+                                            <Label Text="{Binding Status, Mode=TwoWay}" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
                                         </Frame>
                                     </Grid>
                                 </Frame>
