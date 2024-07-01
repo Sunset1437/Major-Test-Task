@@ -14,6 +14,10 @@ namespace MajorTestTask.ViewModels
     public class ApplicationVM : BaseViewModel
     {
         #region fields
+        private int applicationsCount;
+        public int ApplicationsCount { get => applicationsCount; set=>SetProperty(ref applicationsCount, value); }
+        private int applicationsCanceledCount;
+        public int ApplicationsCanceledCount { get => applicationsCanceledCount; set => SetProperty(ref applicationsCanceledCount, value); }
         private ObservableCollection<ApplicationEntity> applications;
         public ObservableCollection<ApplicationEntity> Applications
         {
@@ -98,6 +102,8 @@ namespace MajorTestTask.ViewModels
                     WhyIsCanceled = item.WhyIsCanceled,
                 });
             }
+            ApplicationsCount = Applications.Count;
+            ApplicationsCanceledCount = Applications.Count(x => x.Status == "Отменено");
         }
     }
 }

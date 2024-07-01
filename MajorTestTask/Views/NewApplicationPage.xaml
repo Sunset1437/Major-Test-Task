@@ -8,27 +8,72 @@
     
     <VerticalStackLayout Margin="20" Spacing="10">
 
-        <Editor Text="{Binding SenderAddress, Mode=TwoWay}" TextColor="Black" Placeholder="Адрес отправителя" BackgroundColor="White"/>
-        <Editor Text="{Binding ReceiverAddress, Mode=TwoWay}" TextColor="Black" Placeholder="Адрес получателя" BackgroundColor="White"/>
+        <Grid RowSpacing="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.95*"/>
+                <ColumnDefinition Width="0.05*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Editor x:Name="ESendAddress" IsReadOnly="False" Text="{Binding SenderAddress, Mode=TwoWay}" TextColor="Black" Placeholder="Адрес отправителя" BackgroundColor="White"/>
+            <Label Grid.Column="1" Text="?" HorizontalOptions="CenterAndExpand" FontSize="21" TextColor="White">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
+                </Label.GestureRecognizers>
+            </Label>
+            <Editor x:Name="ERecieveAddress" Grid.Row="1" IsReadOnly="False" Text="{Binding ReceiverAddress, Mode=TwoWay}" TextColor="Black" Placeholder="Адрес получателя" BackgroundColor="White"/>
+            <Label Grid.Row="1" Grid.Column="1" Text="?" HorizontalOptions="CenterAndExpand" FontSize="21" TextColor="White">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_1"/>
+                </Label.GestureRecognizers>
+            </Label>
+        </Grid>
         <HorizontalStackLayout>
-            <Label Text="Дата забора" FontSize="16" VerticalOptions="Center"/>
-            <DatePicker Date="{Binding TakingDate, Mode=TwoWay}"
-                        MinimumDate="{Binding Source={x:Static system:DateTime.Today}}" />
+            <Label Text="Дата забора" FontSize="16" VerticalOptions="Center" Margin="0,0,10,0"/>
+            <DatePicker x:Name="DatePicker" Date="{Binding TakingDate, Mode=TwoWay}"
+                        MinimumDate="{Binding Source={x:Static system:DateTime.Today}}" 
+                        IsEnabled="True"/>
         </HorizontalStackLayout>
-        
-        <Label Text="МГХ груза" FontSize="21" HorizontalOptions="Center" VerticalOptions="Start"/>
-        <Entry x:Name="EWeight" Text="{Binding Weight, Mode=TwoWay}" TextColor="Black" Placeholder="Вес, кг" BackgroundColor="White"/>
-        <Entry x:Name="ELength" Text="{Binding Length, Mode=TwoWay}" TextColor="Black" Placeholder="Длина, см" BackgroundColor="White"/>
-        <Entry x:Name="EWidth" Text="{Binding Width, Mode=TwoWay}" TextColor="Black" Placeholder="Ширина, см" BackgroundColor="White"/>
-        <Entry x:Name="EHeight" Text="{Binding Height, Mode=TwoWay}" TextColor="Black" Placeholder="Высота, см" BackgroundColor="White"/>
+        <Grid Margin="0,0,30,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.33*"/>
+                <ColumnDefinition Width="0.33*"/>
+                <ColumnDefinition Width="0.33*"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="1" Text="МГХ груза" FontSize="21" VerticalOptions="Start" HorizontalOptions="Center"/>
+            <Label Grid.Column="2" Text="?" HorizontalOptions="End" FontSize="21" TextColor="White">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_2"/>
+                </Label.GestureRecognizers>
+            </Label>
+        </Grid>
+
+        <Entry x:Name="EWeight" IsReadOnly="False" Text="{Binding Weight, Mode=TwoWay}" TextColor="Black" Placeholder="Вес, кг" BackgroundColor="White"/>
+        <Entry x:Name="ELength" IsReadOnly="False" Text="{Binding Length, Mode=TwoWay}" TextColor="Black" Placeholder="Длина, см" BackgroundColor="White"/>
+        <Entry x:Name="EWidth" IsReadOnly="False" Text="{Binding Width, Mode=TwoWay}" TextColor="Black" Placeholder="Ширина, см" BackgroundColor="White"/>
+        <Entry x:Name="EHeight" IsReadOnly="False" Text="{Binding Height, Mode=TwoWay}" TextColor="Black" Placeholder="Высота, см" BackgroundColor="White"/>
 
         <HorizontalStackLayout>
-            <Label Text="Статус заявки" FontSize="16" VerticalOptions="Center"/>
+            <Label Text="Статус заявки" FontSize="16" VerticalOptions="Center" Margin="0,0,10,0"/>
             <Picker x:Name="PickerStatus" SelectedIndexChanged="PickerStatus_SelectedIndexChanged" SelectedItem="{Binding Status, Mode=TwoWay}"/>
         </HorizontalStackLayout>
 
-        <VerticalStackLayout IsVisible="{Binding IsOnEdit}" Spacing="10">
-            <Entry Text="{Binding Executor, Mode=TwoWay}" TextColor="Black" Placeholder="Исполнитель" BackgroundColor="White"/>
+        <VerticalStackLayout x:Name="InfoStack" IsVisible="{Binding IsOnEdit}" Spacing="10">
+            <HorizontalStackLayout>
+                <Label Text="Исполнитель" VerticalOptions="Center" Margin="0,-5,10,0" TextColor="White" FontSize="16"/>
+                <Picker x:Name="PExecutor" SelectedItem="{Binding Executor, Mode=TwoWay}">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Кащенко Олег Юрьевич</x:String>
+                            <x:String>Антонов Антон Антонович</x:String>
+                            <x:String>Дерипаско Виктор Анатольевич</x:String>
+                            <x:String>Мурай Сергей Александрович</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+            </HorizontalStackLayout>
             <Editor x:Name="ReasonEditor" IsVisible="false" Text="{Binding WhyIsCanceled, Mode=TwoWay}" TextColor="Black" Placeholder="Причина отмены" BackgroundColor="White"/>
         </VerticalStackLayout>
 

@@ -15,6 +15,7 @@ public partial class NewApplicationPage : ContentPage
         PickerStatus.Items.Clear();
         if (viewModel.IsOnEdit)
 		{
+            PickerStatus.Items.Add("Новая");
             PickerStatus.Items.Add("Передано на выполнение");
             PickerStatus.Items.Add("Выполнено");
             PickerStatus.Items.Add("Отменено");
@@ -45,6 +46,28 @@ public partial class NewApplicationPage : ContentPage
 
     private void PickerStatus_SelectedIndexChanged(object sender, EventArgs e)
     {
+        if (PickerStatus.SelectedItem.ToString() != "Новая" && viewModel.IsOnEdit)
+        {
+            ESendAddress.IsReadOnly = true;
+            ERecieveAddress.IsReadOnly = true;
+            DatePicker.IsEnabled = false;
+            EWeight.IsReadOnly = true;
+            ELength.IsReadOnly = true;
+            EWidth.IsReadOnly = true;
+            EHeight.IsReadOnly = true;
+            InfoStack.IsVisible = true;
+        }
+        else
+        {
+            ESendAddress.IsReadOnly = false;
+            ERecieveAddress.IsReadOnly = false;
+            DatePicker.IsEnabled = true;
+            EWeight.IsReadOnly = false;
+            ELength.IsReadOnly = false;
+            EWidth.IsReadOnly = false;
+            EHeight.IsReadOnly = false;
+            InfoStack.IsVisible = false;
+        }
         if (PickerStatus.SelectedItem.ToString() == "Отменено")
             ReasonEditor.IsVisible = true;
         else
@@ -54,5 +77,22 @@ public partial class NewApplicationPage : ContentPage
     {
         base.OnAppearing();
         InitPickerItems();
+    }
+
+    private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
+    {
+        DisplayAlert("Адрес отправителя", "Адрес отправителя - кто отсылает. Например: Г.Москва, ул.Земляной Вал, 33", "ОК");
+    }
+
+    private void TapGestureRecognizer_Tapped_1(object sender, TappedEventArgs e)
+    {
+        DisplayAlert("Адрес получателя", "Адрес получателя - кто получает. Например: Г.Москва, ул.Новый Арбат, 15", "ОК");
+    }
+
+    private void TapGestureRecognizer_Tapped_2(object sender, TappedEventArgs e)
+    {
+        DisplayAlert("МГХ Груза", "МГХ груза - массогабаритные характеристики груза.\n" +
+            "Вес места в кг - не может быть меньше 0,1 кг, а также превышать 10000 кг.\n" +
+            "Длина, ширина и высота места в см -  не может быть отрицательной или нулевой, а также превышать 1000 см", "ОК");
     }
 }

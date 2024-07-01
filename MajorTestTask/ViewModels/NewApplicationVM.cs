@@ -153,8 +153,11 @@ namespace MajorTestTask.ViewModels
             else 
             {
                 bool editCondition = baseCondition
-                           && !String.IsNullOrWhiteSpace(Status)
-                           && !String.IsNullOrWhiteSpace(Executor);
+                           && !String.IsNullOrWhiteSpace(Status);
+//                if(Status != "Новая")
+//                {
+//                    return editCondition && !String.IsNullOrWhiteSpace(Executor);
+//                }
                 if (Status == "Отменено")
                 {
                     return editCondition && !String.IsNullOrWhiteSpace(WhyIsCanceled);
