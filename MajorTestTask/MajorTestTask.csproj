@@ -49,6 +49,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Images\github.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiImage Include="Images\github.png" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.20" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.20" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />

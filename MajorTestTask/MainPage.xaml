@@ -5,7 +5,10 @@
              Title="Программа учёта"
              BackgroundColor="#e8a346">
     <VerticalStackLayout VerticalOptions="StartAndExpand" HeightRequest="700">
-        <Label Text="Made by Sunset1437 (github)" TextColor="White" FontSize="21"/>
+        <HorizontalStackLayout Margin="10">
+            <Image Source="github.png" WidthRequest="50" HeightRequest="50" BackgroundColor="Transparent"/>
+            <Label Margin="10,0" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Text="Made by Sunset1437" TextColor="White" FontSize="21"/>
+        </HorizontalStackLayout>
         <VerticalStackLayout VerticalOptions="EndAndExpand">
             <Button x:Name="ToApplications" Clicked="ToApplications_Clicked" Text="К заявкам" TextColor="Black" Command="{Binding GoToApplicationCommand}" FontSize="21" WidthRequest="300" HeightRequest="60"/>
         </VerticalStackLayout>

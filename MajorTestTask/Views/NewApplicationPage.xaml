@@ -49,11 +49,27 @@
                 </Label.GestureRecognizers>
             </Label>
         </Grid>
+        <Grid ColumnSpacing="10" RowSpacing="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.25*"/>
+                <ColumnDefinition Width="0.25*"/>
+                <ColumnDefinition Width="0.25*"/>
+                <ColumnDefinition Width="0.25*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Label Text="Вес, кг" FontSize="21" TextColor="white" HorizontalOptions="Center"/>
+            <Entry x:Name="EWeight" Grid.Row="1" IsReadOnly="False" Text="{Binding Weight, Mode=TwoWay}" TextColor="Black" Placeholder="Вес, кг" BackgroundColor="White"/>
+            <Label Text="Длина, см" Grid.Column="1" FontSize="21" TextColor="white" HorizontalOptions="Center"/>
+            <Entry x:Name="ELength" Grid.Row="1" Grid.Column="1" IsReadOnly="False" Text="{Binding Length, Mode=TwoWay}" TextColor="Black" Placeholder="Длина, см" BackgroundColor="White"/>
+            <Label Text="Ширина, см" Grid.Column="2" FontSize="21" TextColor="white" HorizontalOptions="Center"/>
+            <Entry x:Name="EWidth" Grid.Row="1" Grid.Column="2" IsReadOnly="False" Text="{Binding Width, Mode=TwoWay}" TextColor="Black" Placeholder="Ширина, см" BackgroundColor="White"/>
+            <Label Text="Высота, см" Grid.Column="3" FontSize="21" TextColor="white" HorizontalOptions="Center"/>
+            <Entry x:Name="EHeight" Grid.Row="1" Grid.Column="3" IsReadOnly="False" Text="{Binding Height, Mode=TwoWay}" TextColor="Black" Placeholder="Высота, см" BackgroundColor="White"/>
+        </Grid>
 
-        <Entry x:Name="EWeight" IsReadOnly="False" Text="{Binding Weight, Mode=TwoWay}" TextColor="Black" Placeholder="Вес, кг" BackgroundColor="White"/>
-        <Entry x:Name="ELength" IsReadOnly="False" Text="{Binding Length, Mode=TwoWay}" TextColor="Black" Placeholder="Длина, см" BackgroundColor="White"/>
-        <Entry x:Name="EWidth" IsReadOnly="False" Text="{Binding Width, Mode=TwoWay}" TextColor="Black" Placeholder="Ширина, см" BackgroundColor="White"/>
-        <Entry x:Name="EHeight" IsReadOnly="False" Text="{Binding Height, Mode=TwoWay}" TextColor="Black" Placeholder="Высота, см" BackgroundColor="White"/>
 
         <HorizontalStackLayout>
             <Label Text="Статус заявки" FontSize="16" VerticalOptions="Center" Margin="0,0,10,0"/>

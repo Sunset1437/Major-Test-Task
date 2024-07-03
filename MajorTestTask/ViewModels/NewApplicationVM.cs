@@ -1,5 +1,6 @@
 ﻿using MajorTestTask.DataBase;
 using MajorTestTask.DataBase.Entities;
+using MajorTestTask.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -54,6 +55,9 @@ namespace MajorTestTask.ViewModels
         public string? Executor { get => executor; set => SetProperty(ref executor, value); }
         private string? whyIsCanceled;
         public string? WhyIsCanceled { get => whyIsCanceled; set => SetProperty(ref whyIsCanceled, value); }
+
+        private StatusHelper applicationStatus;
+        public StatusHelper ApplicationStatus { get => applicationStatus; set => SetProperty(ref applicationStatus, value); }
         #endregion
         public NewApplicationVM() 
         {
@@ -69,7 +73,7 @@ namespace MajorTestTask.ViewModels
                 Title = "Редактирование заявки";
                 using (AppDbContext db = new AppDbContext())
                 {
-                    var application = await db.Applications.FindAsync(Guid.Parse(itemId));
+                    var application = await db.Applications.FindAsync(Guid.Parse(itemId)); //получаем заявку по ID
                     if (application != null)
                     {
                         ReceiverAddress = application.ReceiverAddress;
@@ -82,11 +86,30 @@ namespace MajorTestTask.ViewModels
                         Executor = application.Executor;
                         Status = application.Status;
                         WhyIsCanceled = application.WhyIsCanceled;
+                        ValidatePickerStatus(application); // передача идндекса для пикера на странице редактирования
                     }
                 }
             }
             else
                 IsOnEdit = false;
+        }
+        private void ValidatePickerStatus(ApplicationEntity application)
+        {
+            switch (application.Status)
+            {
+                case "Новая":
+                    ApplicationStatus = StatusHelper.New;
+                    break;
+                case "Передано на выполнение":
+                    ApplicationStatus = StatusHelper.Sended;
+                    break;
+                case "Выполнено":
+                    ApplicationStatus = StatusHelper.Done;
+                    break;
+                case "Отменено":
+                    ApplicationStatus = StatusHelper.Canceled;
+                    break;
+            }
         }
 
 
@@ -121,12 +144,16 @@ namespace MajorTestTask.ViewModels
                     Executor = Executor,
                     WhyIsCanceled = WhyIsCanceled,
                 };
-                if(ItemId==null) 
-                    await db.Applications.AddAsync(application);
+                if (application.Status != "Отменено") // проверяем если при редактировании меняем статус на другой, то убираем whyiscanceled
+                {
+                    application.WhyIsCanceled = null;
+                }
+                if(ItemId==null) //если ID пустой то создаём, иначе обновляем
+                    await DataBaseHelper.AddItemAsync(application);
                 else
                 {
-                    application.Id=Guid.Parse(itemId);
-                    db.Applications.Update(application);
+                    application.Id = Guid.Parse(itemId);
+                    await DataBaseHelper.UpdateItemAsync(application);
                 }
                 await db.SaveChangesAsync();
             }
@@ -152,17 +179,18 @@ namespace MajorTestTask.ViewModels
             }
             else 
             {
-                bool editCondition = baseCondition
-                           && !String.IsNullOrWhiteSpace(Status);
-//                if(Status != "Новая")
-//                {
-//                    return editCondition && !String.IsNullOrWhiteSpace(Executor);
-//                }
-                if (Status == "Отменено")
+                bool editCondition = baseCondition && !String.IsNullOrWhiteSpace(Status);
+                switch (Status)
                 {
-                    return editCondition && !String.IsNullOrWhiteSpace(WhyIsCanceled);
+                    case "Отменено":
+                        return editCondition && !String.IsNullOrWhiteSpace(WhyIsCanceled);
+                    case "Передано на выполнение":
+                        return editCondition && !String.IsNullOrWhiteSpace(Executor) && !String.IsNullOrWhiteSpace(WhyIsCanceled);
+                    case "Выполнено":
+                        return editCondition && !String.IsNullOrWhiteSpace(Executor) && !String.IsNullOrWhiteSpace(WhyIsCanceled);
+                    default:
+                        return editCondition;
                 }
-                return editCondition;
             }
 
         }

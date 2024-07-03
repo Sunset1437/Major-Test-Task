@@ -19,30 +19,15 @@ public partial class NewApplicationPage : ContentPage
             PickerStatus.Items.Add("Передано на выполнение");
             PickerStatus.Items.Add("Выполнено");
             PickerStatus.Items.Add("Отменено");
+            PickerStatus.SelectedIndex = Convert.ToInt32(viewModel.ApplicationStatus);
         }
-		else
-			PickerStatus.Items.Add("Новая");
-		PickerStatus.SelectedIndex = 0;
+        else
+        {
+            PickerStatus.Items.Add("Новая");
+            PickerStatus.SelectedIndex = 0;
+        }
     }
 
-    private async void Button_Clicked(object sender, EventArgs e)
-    {
-        switch (viewModel.StatusCode)
-        {
-            case 1:
-                await DisplayAlert("Ошибка", "Проверьте вес, он должен быть от 0.1 до 10000 кг", "OK");
-                break;
-            case 2:
-                await DisplayAlert("Ошибка", "Проверьте МГХ груза, они должны быть неотрицательными, ненулевыми, а также не должны превышать 1000 см", "OK");
-                break;
-            case 3:
-                await DisplayAlert("Ошибка", "Проверьте правильность заполенных данных в полях МГХ груза", "OK");
-                break;
-        }
-        (sender as Button).BackgroundColor = Color.FromHex("#A1A1A1");
-        await Task.Delay(100);
-        (sender as Button).BackgroundColor = Color.FromHex("#FFFFFF");
-    }
 
     private void PickerStatus_SelectedIndexChanged(object sender, EventArgs e)
     {
@@ -78,7 +63,25 @@ public partial class NewApplicationPage : ContentPage
         base.OnAppearing();
         InitPickerItems();
     }
-
+    #region label-buttons
+    private async void Button_Clicked(object sender, EventArgs e) // обработка для ошибок
+    {
+        switch (viewModel.StatusCode)
+        {
+            case 1:
+                await DisplayAlert("Ошибка", "Проверьте вес, он должен быть от 0.1 до 10000 кг", "OK");
+                break;
+            case 2:
+                await DisplayAlert("Ошибка", "Проверьте МГХ груза, они должны быть неотрицательными, ненулевыми, а также не должны превышать 1000 см", "OK");
+                break;
+            case 3:
+                await DisplayAlert("Ошибка", "Проверьте правильность заполенных данных в полях МГХ груза", "OK");
+                break;
+        }
+        (sender as Button).BackgroundColor = Color.FromHex("#A1A1A1");
+        await Task.Delay(100);
+        (sender as Button).BackgroundColor = Color.FromHex("#FFFFFF");
+    }
     private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
     {
         DisplayAlert("Адрес отправителя", "Адрес отправителя - кто отсылает. Например: Г.Москва, ул.Земляной Вал, 33", "ОК");
@@ -93,6 +96,7 @@ public partial class NewApplicationPage : ContentPage
     {
         DisplayAlert("МГХ Груза", "МГХ груза - массогабаритные характеристики груза.\n" +
             "Вес места в кг - не может быть меньше 0,1 кг, а также превышать 10000 кг.\n" +
-            "Длина, ширина и высота места в см -  не может быть отрицательной или нулевой, а также превышать 1000 см", "ОК");
+            "Длина, ширина и высота места в см -  не может быть отрицательной или нулевой, а также превышать 1000 см.", "ОК");
     }
+    #endregion
 }

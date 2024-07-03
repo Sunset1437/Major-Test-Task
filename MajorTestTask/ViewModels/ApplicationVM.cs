@@ -18,6 +18,12 @@ namespace MajorTestTask.ViewModels
         public int ApplicationsCount { get => applicationsCount; set=>SetProperty(ref applicationsCount, value); }
         private int applicationsCanceledCount;
         public int ApplicationsCanceledCount { get => applicationsCanceledCount; set => SetProperty(ref applicationsCanceledCount, value); }
+        private int applicationsDoneCount;
+        public int ApplicationsDoneCount { get => applicationsDoneCount; set => SetProperty(ref applicationsDoneCount, value); }
+        private int applicationsSendedCount;
+        public int ApplicationsSendedCount { get => applicationsSendedCount; set => SetProperty(ref applicationsSendedCount, value); }
+        private int applicationsNewCount;
+        public int ApplicationsNewCount { get => applicationsNewCount; set => SetProperty(ref applicationsNewCount, value); }
         private ObservableCollection<ApplicationEntity> applications;
         public ObservableCollection<ApplicationEntity> Applications
         {
@@ -50,7 +56,6 @@ namespace MajorTestTask.ViewModels
             ExecuteLoadItemsAsync().GetAwaiter().GetResult();
             GoToNewApplicationCommand = new Command(OnNewApplicationClicked);
             EditApplicationCommand = new Command<ApplicationEntity>(OnEditApplicationClickedAsync);
-            
         }
 
         private async void OnEditApplicationClickedAsync(ApplicationEntity item)
@@ -66,7 +71,7 @@ namespace MajorTestTask.ViewModels
         {
             Applications = allItems.Search(SearchTerm);
         }
-        public async Task ExecuteLoadItemsAsync()
+        public async Task ExecuteLoadItemsAsync() //загрузка items в коллекции для поиска
         {
             Applications.Clear();
             allItems.Clear();
@@ -104,6 +109,9 @@ namespace MajorTestTask.ViewModels
             }
             ApplicationsCount = Applications.Count;
             ApplicationsCanceledCount = Applications.Count(x => x.Status == "Отменено");
+            ApplicationsDoneCount = Applications.Count(x => x.Status == "Выполнено");
+            ApplicationsSendedCount = Applications.Count(x => x.Status == "Передано на выполнение");
+            ApplicationsNewCount = Applications.Count(x => x.Status == "Новая");
         }
     }
 }

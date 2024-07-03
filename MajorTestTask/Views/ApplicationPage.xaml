@@ -16,8 +16,12 @@
             </Grid.ColumnDefinitions>
             <VerticalStackLayout Spacing="10">
                 <Button Text="Добавить новую заявку" Clicked="Button_Clicked" Command="{Binding GoToNewApplicationCommand}" TextColor="Black" FontSize="21"/>
-                <Label Text="{Binding ApplicationsCount, StringFormat='Всего заявок: {0}', Mode=TwoWay}" VerticalOptions="Center" HorizontalOptions="Center" TextColor="White" FontSize="21"/>
-                <Label Text="{Binding ApplicationsCanceledCount, StringFormat='Из них отменено: {0}', Mode=TwoWay}" VerticalOptions="Center" HorizontalOptions="Center" TextColor="White" FontSize="21"/>
+                <Label Text="Статистика по заявкам" VerticalOptions="Center" HorizontalOptions="Center" TextColor="White" FontSize="21"/>
+                <Label Text="{Binding ApplicationsCount, StringFormat='Всего заявок: {0}', Mode=TwoWay}" VerticalOptions="Center" HorizontalOptions="Start" TextColor="White" FontSize="21"/>
+                <Label Text="{Binding ApplicationsNewCount, StringFormat='Новых: {0}', Mode=TwoWay}" VerticalOptions="Center" HorizontalOptions="Start" TextColor="White" FontSize="21"/>
+                <Label Text="{Binding ApplicationsSendedCount, StringFormat='Передано на выполнение: {0}', Mode=TwoWay}" VerticalOptions="Center" HorizontalOptions="Start" TextColor="White" FontSize="21"/>
+                <Label Text="{Binding ApplicationsDoneCount, StringFormat='Выполнено: {0}', Mode=TwoWay}" VerticalOptions="Center" HorizontalOptions="Start" TextColor="White" FontSize="21"/>
+                <Label Text="{Binding ApplicationsCanceledCount, StringFormat='Отменено: {0}', Mode=TwoWay}" VerticalOptions="Center" HorizontalOptions="Start" TextColor="White" FontSize="21"/>
             </VerticalStackLayout>
             <VerticalStackLayout Grid.Column="1" VerticalOptions="StartAndExpand" HorizontalOptions="CenterAndExpand">
                 <Label Margin="0,0,0,10" Text="Список всех заявок" FontSize="21" HorizontalOptions="CenterAndExpand"/>
