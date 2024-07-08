@@ -1,5 +1,6 @@
 ﻿using MajorTestTask.DataBase;
 using MajorTestTask.DataBase.Entities;
+using MajorTestTask.Extensions;
 using MajorTestTask.Helpers;
 using System;
 using System.Collections.Generic;
@@ -17,8 +18,14 @@ namespace MajorTestTask.ViewModels
     {
         public string Title { get; set; }
         public Command SaveCommand { get; }
+        public Action<int> DisplayErrorAction { get; set; }
+        public Action ButtonClickedAction { get; set; }
         public ObservableCollection<ApplicationEntity> Applications { get; set; }
         #region fields
+        private bool isEditable;
+        public bool IsEditable { get => isEditable; set => SetProperty(ref isEditable, value); }
+        private bool isReasonEditorVisible;
+        public bool IsReasonEditorVisible { get => isReasonEditorVisible; set => SetProperty(ref isReasonEditorVisible, value); }
         private string itemId;
         public string ItemId
         {
@@ -50,7 +57,17 @@ namespace MajorTestTask.ViewModels
         private string height;
         public string Height { get => height; set => SetProperty(ref height, value); }
         private string? status;
-        public string? Status { get => status; set => SetProperty(ref status, value); }
+        public string? Status
+        {
+            get => status;
+            set
+            {
+                status = value;
+                OnPropertyChanged();
+                UpdateUIState();
+            }
+        }
+        
         private string? executor;
         public string? Executor { get => executor; set => SetProperty(ref executor, value); }
         private string? whyIsCanceled;
@@ -111,8 +128,11 @@ namespace MajorTestTask.ViewModels
                     break;
             }
         }
-
-
+        private void UpdateUIState()
+        {
+            IsEditable = Status == "Новая" || !IsOnEdit;
+            IsReasonEditorVisible = Status == "Отменено";
+        }
         private async void OnSaveCommandClicked(object arg)
         {
             // Вес от 0.1 кг до 10000 кг и не может быть отрицательным
@@ -123,13 +143,11 @@ namespace MajorTestTask.ViewModels
             {
                 if(double.Parse(Weight) >= 10000 || double.Parse(Weight) <= 0.1)
                 {
-                    StatusCode = 1;
-                    throw new NotImplementedException();
+                    throw new WeightException();
                 }
                 if ((double.Parse(Length) >= 1000 || double.Parse(Length) <= 0) || (double.Parse(Width) >= 1000 || double.Parse(Width) <= 0) || (double.Parse(Height) >= 1000 || double.Parse(Height) <= 0))
                 {
-                    StatusCode = 2;
-                    throw new NotImplementedException();
+                    throw new DimensionsException();
                 }
                 var application = new ApplicationEntity()
                 {
@@ -157,13 +175,24 @@ namespace MajorTestTask.ViewModels
                 }
                 await db.SaveChangesAsync();
             }
+            catch (WeightException ex)
+            {
+                StatusCode = 1;
+                DisplayErrorAction?.Invoke(1);
+            }
+            catch (DimensionsException ex)
+            { 
+                StatusCode = 2;
+                DisplayErrorAction?.Invoke(2);
+            }
             catch (Exception ex)
             {
                 StatusCode = 3;
-                Debug.WriteLine(ex);
+                DisplayErrorAction?.Invoke(3);
             }
-            if(StatusCode==0)
+            if (StatusCode == 0)
                 await Shell.Current.GoToAsync("..");
+            ButtonClickedAction?.Invoke();
         }
         private bool CanExecute(object arg)
         {
@@ -185,9 +214,9 @@ namespace MajorTestTask.ViewModels
                     case "Отменено":
                         return editCondition && !String.IsNullOrWhiteSpace(WhyIsCanceled);
                     case "Передано на выполнение":
-                        return editCondition && !String.IsNullOrWhiteSpace(Executor) && !String.IsNullOrWhiteSpace(WhyIsCanceled);
+                        return editCondition && !String.IsNullOrWhiteSpace(Executor);
                     case "Выполнено":
-                        return editCondition && !String.IsNullOrWhiteSpace(Executor) && !String.IsNullOrWhiteSpace(WhyIsCanceled);
+                        return editCondition && !String.IsNullOrWhiteSpace(Executor);
                     default:
                         return editCondition;
                 }

@@ -10,7 +10,6 @@ namespace MajorTestTask.DataBase
 {
     public class AppDbContext : DbContext
     {
-        private readonly string _databasePath = $"{AppContext.BaseDirectory}/DataBase/database.db";
         public DbSet<ApplicationEntity> Applications { get; set; }
         public AppDbContext()
         {
@@ -24,7 +23,7 @@ namespace MajorTestTask.DataBase
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite($"Data Source=database.db");
-            //base.OnConfiguring(optionsBuilder);
+            base.OnConfiguring(optionsBuilder);
         }
     }
 }

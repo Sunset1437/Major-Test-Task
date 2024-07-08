@@ -3,8 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MajorTestTask.Views.NewApplicationPage"
              xmlns:system="clr-namespace:System;assembly=netstandard"
+             xmlns:converter="clr-namespace:MajorTestTask.Converters"
              BackgroundColor="#e8a346"
              Title="{Binding Title}">
+    
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converter:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     
     <VerticalStackLayout Margin="20" Spacing="10">
 
@@ -17,13 +24,13 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Editor x:Name="ESendAddress" IsReadOnly="False" Text="{Binding SenderAddress, Mode=TwoWay}" TextColor="Black" Placeholder="Адрес отправителя" BackgroundColor="White"/>
+            <Editor x:Name="ESendAddress" IsReadOnly="{Binding IsEditable, Converter={StaticResource InverseBooleanConverter}}" Text="{Binding SenderAddress, Mode=TwoWay}" TextColor="Black" Placeholder="Адрес отправителя" BackgroundColor="White"/>
             <Label Grid.Column="1" Text="?" HorizontalOptions="CenterAndExpand" FontSize="21" TextColor="White">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
                 </Label.GestureRecognizers>
             </Label>
-            <Editor x:Name="ERecieveAddress" Grid.Row="1" IsReadOnly="False" Text="{Binding ReceiverAddress, Mode=TwoWay}" TextColor="Black" Placeholder="Адрес получателя" BackgroundColor="White"/>
+            <Editor x:Name="ERecieveAddress" Grid.Row="1" IsReadOnly="{Binding IsEditable, Converter={StaticResource InverseBooleanConverter}}" Text="{Binding ReceiverAddress, Mode=TwoWay}" TextColor="Black" Placeholder="Адрес получателя" BackgroundColor="White"/>
             <Label Grid.Row="1" Grid.Column="1" Text="?" HorizontalOptions="CenterAndExpand" FontSize="21" TextColor="White">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_1"/>
@@ -34,7 +41,7 @@
             <Label Text="Дата забора" FontSize="16" VerticalOptions="Center" Margin="0,0,10,0"/>
             <DatePicker x:Name="DatePicker" Date="{Binding TakingDate, Mode=TwoWay}"
                         MinimumDate="{Binding Source={x:Static system:DateTime.Today}}" 
-                        IsEnabled="True"/>
+                        IsEnabled="{Binding IsEditable}"/>
         </HorizontalStackLayout>
         <Grid Margin="0,0,30,0">
             <Grid.ColumnDefinitions>
@@ -61,22 +68,22 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Label Text="Вес, кг" FontSize="21" TextColor="white" HorizontalOptions="Center"/>
-            <Entry x:Name="EWeight" Grid.Row="1" IsReadOnly="False" Text="{Binding Weight, Mode=TwoWay}" TextColor="Black" Placeholder="Вес, кг" BackgroundColor="White"/>
+            <Entry x:Name="EWeight" Grid.Row="1" IsReadOnly="{Binding IsEditable, Converter={StaticResource InverseBooleanConverter}}" Text="{Binding Weight, Mode=TwoWay}" TextColor="Black" Placeholder="Вес, кг" BackgroundColor="White"/>
             <Label Text="Длина, см" Grid.Column="1" FontSize="21" TextColor="white" HorizontalOptions="Center"/>
-            <Entry x:Name="ELength" Grid.Row="1" Grid.Column="1" IsReadOnly="False" Text="{Binding Length, Mode=TwoWay}" TextColor="Black" Placeholder="Длина, см" BackgroundColor="White"/>
+            <Entry x:Name="ELength" Grid.Row="1" Grid.Column="1" IsReadOnly="{Binding IsEditable, Converter={StaticResource InverseBooleanConverter}}" Text="{Binding Length, Mode=TwoWay}" TextColor="Black" Placeholder="Длина, см" BackgroundColor="White"/>
             <Label Text="Ширина, см" Grid.Column="2" FontSize="21" TextColor="white" HorizontalOptions="Center"/>
-            <Entry x:Name="EWidth" Grid.Row="1" Grid.Column="2" IsReadOnly="False" Text="{Binding Width, Mode=TwoWay}" TextColor="Black" Placeholder="Ширина, см" BackgroundColor="White"/>
+            <Entry x:Name="EWidth" Grid.Row="1" Grid.Column="2" IsReadOnly="{Binding IsEditable, Converter={StaticResource InverseBooleanConverter}}" Text="{Binding Width, Mode=TwoWay}" TextColor="Black" Placeholder="Ширина, см" BackgroundColor="White"/>
             <Label Text="Высота, см" Grid.Column="3" FontSize="21" TextColor="white" HorizontalOptions="Center"/>
-            <Entry x:Name="EHeight" Grid.Row="1" Grid.Column="3" IsReadOnly="False" Text="{Binding Height, Mode=TwoWay}" TextColor="Black" Placeholder="Высота, см" BackgroundColor="White"/>
+            <Entry x:Name="EHeight" Grid.Row="1" Grid.Column="3" IsReadOnly="{Binding IsEditable, Converter={StaticResource InverseBooleanConverter}}" Text="{Binding Height, Mode=TwoWay}" TextColor="Black" Placeholder="Высота, см" BackgroundColor="White"/>
         </Grid>
 
 
         <HorizontalStackLayout>
             <Label Text="Статус заявки" FontSize="16" VerticalOptions="Center" Margin="0,0,10,0"/>
-            <Picker x:Name="PickerStatus" SelectedIndexChanged="PickerStatus_SelectedIndexChanged" SelectedItem="{Binding Status, Mode=TwoWay}"/>
+            <Picker x:Name="PickerStatus" SelectedItem="{Binding Status, Mode=TwoWay}"/>
         </HorizontalStackLayout>
 
-        <VerticalStackLayout x:Name="InfoStack" IsVisible="{Binding IsOnEdit}" Spacing="10">
+        <VerticalStackLayout x:Name="InfoStack" IsVisible="{Binding IsEditable, Converter={StaticResource InverseBooleanConverter}}" Spacing="10">
             <HorizontalStackLayout>
                 <Label Text="Исполнитель" VerticalOptions="Center" Margin="0,-5,10,0" TextColor="White" FontSize="16"/>
                 <Picker x:Name="PExecutor" SelectedItem="{Binding Executor, Mode=TwoWay}">
@@ -90,9 +97,9 @@
                     </Picker.ItemsSource>
                 </Picker>
             </HorizontalStackLayout>
-            <Editor x:Name="ReasonEditor" IsVisible="false" Text="{Binding WhyIsCanceled, Mode=TwoWay}" TextColor="Black" Placeholder="Причина отмены" BackgroundColor="White"/>
+            <Editor x:Name="ReasonEditor" IsVisible="{Binding IsReasonEditorVisible}" Text="{Binding WhyIsCanceled, Mode=TwoWay}" TextColor="Black" Placeholder="Причина отмены" BackgroundColor="White"/>
         </VerticalStackLayout>
 
-        <Button Text="Сохранить" Command="{Binding SaveCommand}" FontSize="21" Clicked="Button_Clicked" TextColor="Black"/>
+        <Button x:Name="SaveBtn" Text="Сохранить" Command="{Binding SaveCommand}" FontSize="21" TextColor="Black"/>
     </VerticalStackLayout>
 </ContentPage>

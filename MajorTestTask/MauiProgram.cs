@@ -39,8 +39,8 @@ public static class MauiProgram
 		}
 		catch (Exception ex) 
 		{
-
-		}
+            await Application.Current.MainPage.DisplayAlert("Критическая ошибка", "Приложение не может запуститься. Причина: " + ex.Message, "OK");
+        }
 	}
 	private static async Task AddInfoAsync(AppDbContext db, CancellationToken cancellationToken)
 	{

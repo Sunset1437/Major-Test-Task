@@ -9,6 +9,8 @@ public partial class NewApplicationPage : ContentPage
 	{
 		InitializeComponent();
         BindingContext = viewModel = new NewApplicationVM();
+        viewModel.DisplayErrorAction = DisplayError;
+        viewModel.ButtonClickedAction = ButtonClicked;
     }
 	private void InitPickerItems()
 	{
@@ -27,60 +29,30 @@ public partial class NewApplicationPage : ContentPage
             PickerStatus.SelectedIndex = 0;
         }
     }
-
-
-    private void PickerStatus_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        if (PickerStatus.SelectedItem.ToString() != "Новая" && viewModel.IsOnEdit)
-        {
-            ESendAddress.IsReadOnly = true;
-            ERecieveAddress.IsReadOnly = true;
-            DatePicker.IsEnabled = false;
-            EWeight.IsReadOnly = true;
-            ELength.IsReadOnly = true;
-            EWidth.IsReadOnly = true;
-            EHeight.IsReadOnly = true;
-            InfoStack.IsVisible = true;
-        }
-        else
-        {
-            ESendAddress.IsReadOnly = false;
-            ERecieveAddress.IsReadOnly = false;
-            DatePicker.IsEnabled = true;
-            EWeight.IsReadOnly = false;
-            ELength.IsReadOnly = false;
-            EWidth.IsReadOnly = false;
-            EHeight.IsReadOnly = false;
-            InfoStack.IsVisible = false;
-        }
-        if (PickerStatus.SelectedItem.ToString() == "Отменено")
-            ReasonEditor.IsVisible = true;
-        else
-            ReasonEditor.IsVisible = false;
-    }
     protected override void OnAppearing()
     {
         base.OnAppearing();
         InitPickerItems();
     }
     #region label-buttons
-    private async void Button_Clicked(object sender, EventArgs e) // обработка для ошибок
+    private async void DisplayError(int errorCode)
     {
-        switch (viewModel.StatusCode)
+        string message = errorCode switch
         {
-            case 1:
-                await DisplayAlert("Ошибка", "Проверьте вес, он должен быть от 0.1 до 10000 кг", "OK");
-                break;
-            case 2:
-                await DisplayAlert("Ошибка", "Проверьте МГХ груза, они должны быть неотрицательными, ненулевыми, а также не должны превышать 1000 см", "OK");
-                break;
-            case 3:
-                await DisplayAlert("Ошибка", "Проверьте правильность заполенных данных в полях МГХ груза", "OK");
-                break;
-        }
-        (sender as Button).BackgroundColor = Color.FromHex("#A1A1A1");
+            1 => "Проверьте вес, он должен быть от 0.1 до 10000 кг",
+            2 => "Проверьте МГХ груза, они должны быть неотрицательными, ненулевыми, а также не должны превышать 1000 см",
+            3 => "Проверьте правильность заполенных данных в полях МГХ груза",
+            _ => "Неизвестная ошибка"
+        };
+
+        await DisplayAlert("Ошибка", message, "OK");
+    }
+
+    private async void ButtonClicked()
+    {
+        SaveBtn.BackgroundColor = Color.FromHex("#A1A1A1");
         await Task.Delay(100);
-        (sender as Button).BackgroundColor = Color.FromHex("#FFFFFF");
+        SaveBtn.BackgroundColor = Color.FromHex("#FFFFFF");
     }
     private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
     {

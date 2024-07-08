@@ -5,7 +5,8 @@
              x:Class="MajorTestTask.Views.ApplicationPage"
              Title="Заявки"
              BackgroundColor="#e8a346">
-    <VerticalStackLayout Margin="20">
+    <ScrollView>
+        <VerticalStackLayout Margin="20">
         <VerticalStackLayout>
             <Entry Placeholder="Поиск, например: г.Москва" BackgroundColor="White" Text="{Binding SearchTerm}" TextColor="Black" IsSpellCheckEnabled="False"/>
         </VerticalStackLayout>
@@ -86,7 +87,7 @@
                 <CollectionView ItemsSource="{Binding Applications}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <VerticalStackLayout Margin="0,5">
+                            <VerticalStackLayout Margin="0,10">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="150"/>
@@ -174,4 +175,5 @@
             </VerticalStackLayout>
         </Grid>
     </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

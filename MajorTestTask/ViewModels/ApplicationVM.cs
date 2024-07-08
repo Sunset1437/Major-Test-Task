@@ -25,15 +25,7 @@ namespace MajorTestTask.ViewModels
         private int applicationsNewCount;
         public int ApplicationsNewCount { get => applicationsNewCount; set => SetProperty(ref applicationsNewCount, value); }
         private ObservableCollection<ApplicationEntity> applications;
-        public ObservableCollection<ApplicationEntity> Applications
-        {
-            get => applications;
-            set
-            {
-                applications = value;
-                OnPropertyChanged();
-            }
-        }
+        public ObservableCollection<ApplicationEntity> Applications { get => applications; set => SetProperty(ref applications, value); }
         private ObservableCollection<ApplicationEntity> allItems;
         private string searchTerm;
         public string SearchTerm
@@ -76,37 +68,8 @@ namespace MajorTestTask.ViewModels
             Applications.Clear();
             allItems.Clear();
             var applications = await DataBaseHelper.GetItemsAsync<ApplicationEntity>();
-            foreach(var item in applications)
-            {
-                allItems.Add(new ApplicationEntity()
-                {
-                    Id = item.Id,
-                    ReceiverAddress = item.ReceiverAddress,
-                    SenderAddress = item.SenderAddress,
-                    TakingDate = item.TakingDate,
-                    Weight = item.Weight,
-                    Width = item.Width,
-                    Length = item.Length,
-                    Height = item.Height,
-                    Status = item.Status,
-                    Executor = item.Executor,
-                    WhyIsCanceled = item.WhyIsCanceled,
-                });
-                Applications.Add(new ApplicationEntity()
-                {
-                    Id = item.Id,
-                    ReceiverAddress = item.ReceiverAddress,
-                    SenderAddress = item.SenderAddress,
-                    TakingDate = item.TakingDate,
-                    Weight = item.Weight,
-                    Width = item.Width,
-                    Length = item.Length,
-                    Height = item.Height,
-                    Status = item.Status,
-                    Executor = item.Executor,
-                    WhyIsCanceled = item.WhyIsCanceled,
-                });
-            }
+            allItems=new ObservableCollection<ApplicationEntity>(applications);
+            Applications=new ObservableCollection<ApplicationEntity>(applications);
             ApplicationsCount = Applications.Count;
             ApplicationsCanceledCount = Applications.Count(x => x.Status == "Отменено");
             ApplicationsDoneCount = Applications.Count(x => x.Status == "Выполнено");
